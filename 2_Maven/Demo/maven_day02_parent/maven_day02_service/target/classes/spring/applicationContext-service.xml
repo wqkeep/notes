@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			    http://www.springframework.org/schema/beans/spring-beans.xsd
+			    http://www.springframework.org/schema/context
+			    http://www.springframework.org/schema/context/spring-context.xsd
+			    http://www.springframework.org/schema/aop
+			    http://www.springframework.org/schema/aop/spring-aop.xsd
+			    http://www.springframework.org/schema/tx
+			    http://www.springframework.org/schema/tx/spring-tx.xsd
+			    http://www.springframework.org/schema/mvc
+			    http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--service层配置文件开始-->
+
+    <!--组件扫描配置-->
+    <context:component-scan base-package="com.itheima.service"/>
+
+    <!--aop面向切面编程，切面就是切入点和通知的组合-->
+    <!--配置事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--配置事务的通知
+        id可以随便取，默认id="transactionInterceptor"，我们可以取成advice
+    -->
+    <tx:advice id="advice">
+        <tx:attributes>
+            <!--所有保存方法都以save开头，save这种方法肯定是要走事务的
+                所以我们选择propagation="REQUIRED"这样一个属性
+            -->
+            <tx:method name="save*" propagation="REQUIRED"/>
+            <!--那么接下来我们约定，凡是更新都以update开头，要走事务-->
+            <tx:method name="update*" propagation="REQUIRED"/>
+            <!--凡是删除都以delete开头，要走事务-->
+            <tx:method name="delete*" propagation="REQUIRED"/>
+            <!--凡是查询都以find开头,不走事务，让它只读即可-->
+            <tx:method name="find*" read-only="true"/>
+            <!--上面那些是局部扫描，下面是全局扫描，尽可能避免全局扫描-->
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+    
+    <!--配置切面-->
+    <aop:config>
+        <!--配置切入点-->
+        <aop:pointcut id="pointcut" expression="execution(* com.itheima.service.impl.*.*(..))"/>
+        <!--把切入点和通知整到一起，变成一个切面-->
+        <aop:advisor advice-ref="advice" pointcut-ref="pointcut"/>
+    </aop:config>
+    <!--service层配置文件结束-->
+</beans>

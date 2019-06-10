@@ -1,0 +1,26 @@
+server:
+  port: 8088
+spring:
+  application:
+    name: consumer-service # 应用名称
+eureka:
+  client:
+    service-url: # EurekaServer地址 ,多个地址以','隔开
+      defaultZone: http://127.0.0.1:10086/eureka,http://127.0.0.1:10087/eureka
+# 开启Feign的熔断功能
+feign:
+  hystrix:
+    enabled: true
+# 通过`服务名.ribbon.xx`来对指定服务配置
+user-service:
+  ribbon:
+    ConnectTimeout: 500 # 连接超时时间(ms)
+    ReadTimeout: 2000 # 通信超时时间(ms)
+# 开启全局的自定义超时时长
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000

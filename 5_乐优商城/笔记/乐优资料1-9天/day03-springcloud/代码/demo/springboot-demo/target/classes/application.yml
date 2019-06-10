@@ -1,0 +1,10 @@
+server:
+  port: 80
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mydb01
+    username: root
+    password: 123
+mybatis:
+  type-aliases-package: cn.itcast.demo.pojo

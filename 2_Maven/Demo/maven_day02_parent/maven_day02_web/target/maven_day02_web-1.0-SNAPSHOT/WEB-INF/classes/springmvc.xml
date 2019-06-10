@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			    http://www.springframework.org/schema/beans/spring-beans.xsd
+			    http://www.springframework.org/schema/context
+			    http://www.springframework.org/schema/context/spring-context.xsd
+			    http://www.springframework.org/schema/aop
+			    http://www.springframework.org/schema/aop/spring-aop.xsd
+			    http://www.springframework.org/schema/tx
+			    http://www.springframework.org/schema/tx/spring-tx.xsd
+			    http://www.springframework.org/schema/mvc
+			    http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--组件扫描-->
+    <context:component-scan base-package="com.itheima.controller"/>
+
+    <!--处理器映射器，处理器适配器-->
+    <mvc:annotation-driven/>
+
+    <!--视图解析器-->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--释放静态资源,假如我们现在mvc使用的是DispatcherServlet，它底层是servlet，那么我
+        们servlet路径假如要配成"/"，那么你的意思就是拦截所有，但不能连js等静态资源也拦
+        截，所以要释放静态资源。配置完成后，以后凡是碰见静态资源都会交给默认的servlet去
+        处理，也就是我们之前写的HttpServlet，而不是DispatcherServlet。
+    -->
+    <mvc:default-servlet-handler/>
+</beans>

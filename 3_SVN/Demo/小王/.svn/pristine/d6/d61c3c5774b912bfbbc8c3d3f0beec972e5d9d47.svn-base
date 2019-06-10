@@ -1,0 +1,3 @@
+class Hi{
+	int b = 100;
+}

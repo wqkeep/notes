@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.ItemsDao">
+    <!--实体类中的属性与数据库中的列保持一致，所以这儿就用resultType
+        如果不一致，就要用resultMap.
+        resultType="items",items和Items都可以识别，但是如果写了别名了
+        "items"，在写配置文件的时候。切记不要忘了扫描pojo这个包路径
+        否则这个别名是不起作用的。
+    -->
+    <select id="findById" parameterType="int" resultType="items">
+        select * from items where id = #{id}
+    </select>
+
+</mapper>

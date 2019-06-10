@@ -1,0 +1,7 @@
+class HelloWorld{
+    public static void main(String[] args){
+		System.out.printf("123");
+		System.out.printf("456");
+		System.out.printf("456");
+	}
+}
